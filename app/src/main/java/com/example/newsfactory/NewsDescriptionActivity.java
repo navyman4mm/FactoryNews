@@ -16,14 +16,25 @@ import com.bumptech.glide.Glide;
 public class NewsDescriptionActivity extends AppCompatActivity {
 
     private static final String TAG = "NewsDescriptionActivity";
-
+    private Toolbar toolbar;
+    private TextView toolbarTitle;
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_description);
 
-        getIncomingIntent();
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        
+        getIncomingIntent();
     }
 
 
@@ -41,6 +52,7 @@ public class NewsDescriptionActivity extends AppCompatActivity {
 
 
     private void putData(String imageURL,String title,String content){
+        toolbarTitle.setText(title);
         TextView tvTitle = findViewById(R.id.tvTitleNewsDescription);
         tvTitle.setText(title);
 
@@ -54,26 +66,10 @@ public class NewsDescriptionActivity extends AppCompatActivity {
 
         TextView tvContent = findViewById(R.id.tvContentNewsDescription);
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             tvContent.setText(Html.fromHtml(content, Html.FROM_HTML_MODE_COMPACT));
         } else {
             tvContent.setText(Html.fromHtml(content));
         }
-
-
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        mTitle.setText(title);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
     }
-
 }
